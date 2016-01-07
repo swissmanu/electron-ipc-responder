@@ -3,7 +3,7 @@
   "description": "A simple request/response based communication protocol for Electrons IPC functionality",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard index.js"
   },
   "repository": {
     "type": "git",
@@ -32,5 +32,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "node-uuid": "^1.4.7"
   }
 }
