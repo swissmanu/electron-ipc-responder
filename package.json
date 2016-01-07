@@ -1,0 +1,36 @@
+{
+  "name": "electron-ipc-adapter",
+  "description": "A simple request/response based communication protocol for Electrons IPC functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swissmanu/electron-ipc-adapter.git"
+  },
+  "keywords": [
+    "electron",
+    "ipc",
+    "communication",
+    "request",
+    "response",
+    "inter",
+    "process"
+  ],
+  "author": "Manuel Alabor <manuel@alabor.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swissmanu/electron-ipc-adapter/issues"
+  },
+  "homepage": "https://github.com/swissmanu/electron-ipc-adapter#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^1.1.5",
+    "standard": "^5.4.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
