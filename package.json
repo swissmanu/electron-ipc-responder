@@ -3,7 +3,8 @@
   "description": "A simple request/response based communication protocol for Electrons IPC functionality",
   "main": "index.js",
   "scripts": {
-    "test": "standard index.js"
+    "test": "standard index.js",
+    "docs": "jsdoc -d docs -R README.md index.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/swissmanu/electron-ipc-adapter#readme",
   "devDependencies": {
     "cz-conventional-changelog": "^1.1.5",
+    "jsdoc": "^3.4.0",
     "standard": "^5.4.1"
   },
   "config": {
