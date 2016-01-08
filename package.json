@@ -25,9 +25,11 @@
     "url": "https://github.com/swissmanu/electron-ipc-adapter/issues"
   },
   "homepage": "https://github.com/swissmanu/electron-ipc-adapter#readme",
+  "engines" : {
+    "node" : ">=4"
+  },
   "dependencies": {
-    "node-uuid": "^1.4.7",
-    "q": "^1.4.1"
+    "node-uuid": "^1.4.7"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^1.1.5",

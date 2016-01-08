@@ -1,6 +1,5 @@
 'use strict'
 
-const q = require('q')
 const uuid = require('node-uuid')
 const IPCAdapterChannel = 'electron-ipc-adapter'
 
@@ -15,11 +14,8 @@ const IPCAdapterChannel = 'electron-ipc-adapter'
  *   called by the other peer. Vica versa, {@link IPCAdapter#ask} and
  *   {@link IPCAdapter#tell} allow to call upon such topics.
  * </p>
- * <p>
- *   IPCAdapter is thought to be subclassed on each peer.
- * </p>
  *
- * @example <caption>Create IPCAdapter in Host Process</caption>
+ * @example <caption>Create IPCAdapter for Host Process</caption>
  * const electron = require('electron')
  * let mainWindow = new electron.BrowserWindow()
  * const ipcMain = electron.ipcMain
@@ -29,12 +25,12 @@ const IPCAdapterChannel = 'electron-ipc-adapter'
  *   constructor() {
  *     super(webContents.send.bind(webContents), ipcMain.on.bind(ipcMain))
  *
- *     this.registerTopic('hello', (payload) => {
+ *     this.registerTopic('hello', (payload) => Promise.resolve({
  *       text: 'hello ' + payload.name + ' too'
  *     })
  *   }
  * }
- * @example <caption>Create IPCAdapter in Renderer Process</caption>
+ * @example <caption>Create IPCAdapter for Renderer Process</caption>
  * const ipcRenderer = window.require('electron').ipcRenderer
  *
  * class RendererIPCAdapter extends IPCAdapter {
@@ -43,7 +39,7 @@ const IPCAdapterChannel = 'electron-ipc-adapter'
  *   }
  *
  *   sayHelloToHost(name) {
- *     this.ask('hello', { name }, (payload) => payload.name)
+ *     return this.ask('hello', { name }).then((payload) => payload.text)
  *   }
  * }
  */
@@ -75,7 +71,7 @@ class IPCAdapter {
           })
       } else if (typeof (id) === 'string' && id.length > 0 && this.awaitingResponseHandlers[id] != null) {
         // Handle a response we are waiting for:
-        this.awaitingResponseHandlers[id].deferred.resolve(payload)
+        this.awaitingResponseHandlers[id].resolve(payload)
         delete this.awaitingResponseHandlers[id]
       }
     })
@@ -86,9 +82,11 @@ class IPCAdapter {
    * handler function has to return a promise.
    *
    * @param {string} topic Name of the topic to register
-   * @param {function} handler Handler function to register for given topic
-   * @return {promise} A promise resolving with the response that should be sent
-   *                   to the caller.
+   * @param {function} handler A handler function to register for given topic.
+   *                           This will be called every time the the given
+   *                           topic was called via {@link IPCAdapter#ask} or
+   *                           {@link IPCAdapter#tell}. It has to return a
+   *                           promise.
    */
   registerTopic (topic, handler) {
     this.topicHandlers[topic] = handler
@@ -96,44 +94,28 @@ class IPCAdapter {
 
   /**
    * Request a response for given topic of the counterparty. The payload
-   * parameter will be sent along with your request. The processResponsePayload
-   * function allows you to process the returned response before exposing it. If
-   * you want to just send a message without waiting for response, see
-   * {@link IPCAdapter#tell}.
+   * parameter will be sent along with your request. If you want to just send a
+   * message without waiting for response, see {@link IPCAdapter#tell}.
    *
    * @param {string} topic Topic to request response for
    * @param {object} payload Data to send to the counterparty. This is
-   *                         optional. Default is undefined. You can pass
-   *                         processResponsePayload instead of payload for a
-   *                         shorter function call signature.
-   * @param {function} processResponsePayload Function to process returned
-   *                                          response with. This is
-   *                                          optional. Default will just return
-   *                                          the response from the
-   *                                          counterparty.
-   * @return {promise} A promise that resolves with the value
-   *                   processResponsePayload returns.
+   *                         optional. Default is an empty object.
+   * @return {promise} A promise that resolves with the payload returned from
+   *                   the topic handler registered with
+   *                   {@link IPCAdapter#registerTopic}.
    */
-  ask (topic, payload, processResponsePayload) {
-    const deferred = q.defer()
+  ask (topic, payload) {
     const id = uuid.v4()
     const timestamp = new Date()
 
-    if (processResponsePayload == null) {
-      processResponsePayload = (payload) => payload
+    if (payload == null) {
+      payload = {}
     }
 
-    // If a function was given as payload simply assume that we should use that
-    // function as processResponsePayload:
-    if (typeof (payload) === 'function') {
-      processResponsePayload = payload
-    }
-
-    this.awaitingResponseHandlers[id] = { deferred, id, timestamp }
-    this.send(IPCAdapterChannel, { id, topic, payload })
-
-    return deferred.promise
-      .then((payload) => processResponsePayload(payload))
+    return new Promise((resolve, reject) => {
+      this.awaitingResponseHandlers[id] = { id, timestamp, resolve, reject }
+      this.send(IPCAdapterChannel, { id, topic, payload })
+    })
   }
 
   /**
@@ -153,7 +135,7 @@ class IPCAdapter {
   tell (topic, payload) {
     const id = uuid.v4()
     this.send(IPCAdapterChannel, { id, topic, payload })
-    return q.when()
+    return Promise.resolve()
   }
 }
 
