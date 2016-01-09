@@ -1,11 +1,12 @@
 {
   "name": "electron-ipc-adapter",
   "description": "A simple request/response based communication protocol for Electrons IPC functionality",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "standard index.js test/**/*.js && node test/support/runner.js",
     "docs": "jsdoc -d docs -R README.md index.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "npm run build && semantic-release pre && npm publish && semantic-release post",
+    "build": "rm -fr dist && mkdir dist && babel --presets es2015 --out-file dist/index.js index.js"
   },
   "repository": {
     "type": "git",
@@ -33,12 +34,14 @@
     "node-uuid": "^1.4.7"
   },
   "devDependencies": {
+    "babel-cli": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13",
     "cz-conventional-changelog": "^1.1.5",
     "jasmine": "^2.4.1",
     "jasmine-spec-reporter": "^2.4.0",
     "jsdoc": "^3.4.0",
-    "standard": "^5.4.1",
-    "semantic-release": "^4.3.5"
+    "semantic-release": "^4.3.5",
+    "standard": "^5.4.1"
   },
   "config": {
     "commitizen": {
