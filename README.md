@@ -3,6 +3,15 @@
 
 A simple request/response based communication protocol for Electrons IPC functionality
 
+The provided class `IPCAdapter` is used to set up the communication peers on Electrons [main and renderer process](http://electron.atom.io/docs/v0.36.0/tutorial/quick-start/#main-process). Once ready, `registerTopic()` can be used to make a specific function available to being called upon from the other peer. To do so, `ask()` and `tell()` is available. `ask` allows you to wait for an answer from the other peer, `tell` is just "fire and forget". Both return a promise for the ease of use.
+
+Please refer to the [documentation](http://swissmanu.github.io/electron-ipc-adapter/) for more details or have a look at the provided [examples](https://github.com/swissmanu/electron-ipc-adapter/tree/master/examples).
+
+## Installation
+
+```bash
+$ npm install electron-ipc-adapter --save
+```
 
 ## License
 
