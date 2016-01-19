@@ -1,16 +1,16 @@
 {
-  "name": "electron-ipc-adapter",
+  "name": "electron-ipc-responder",
   "description": "A simple request/response based communication protocol for Electrons IPC functionality",
   "main": "dist/index.js",
   "scripts": {
     "test": "standard index.js test/**/*.js && node test/support/runner.js",
-    "docs": "jsdoc -c .jsdoc.json && sed -i '' 's/<title>JSDoc/<title>electron-ipc-adapter Documentation/g' docs/*.html",
+    "docs": "jsdoc -c .jsdoc.json && sed -i '' 's/<title>JSDoc/<title>electron-ipc-responder Documentation/g' docs/*.html",
     "semantic-release": "npm run build && semantic-release pre && npm publish && semantic-release post",
     "build": "rm -fr dist && mkdir dist && babel --presets es2015 --out-file dist/index.js index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/swissmanu/electron-ipc-adapter.git"
+    "url": "https://github.com/swissmanu/electron-ipc-responder.git"
   },
   "keywords": [
     "electron",
@@ -24,9 +24,9 @@
   "author": "Manuel Alabor <manuel@alabor.me>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/swissmanu/electron-ipc-adapter/issues"
+    "url": "https://github.com/swissmanu/electron-ipc-responder/issues"
   },
-  "homepage": "https://github.com/swissmanu/electron-ipc-adapter#readme",
+  "homepage": "https://github.com/swissmanu/electron-ipc-responder#readme",
   "engines": {
     "node": ">=4"
   },

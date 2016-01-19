@@ -1,25 +1,25 @@
 /* global jasmine, beforeEach, describe, it, expect */
 
-const IPCAdapter = require('../index')
+const IPCResponder = require('../index')
 
-describe('IPCAdapter', () => {
+describe('IPCResponder', () => {
   beforeEach(() => {
     this.on = jasmine.createSpy('on')
     this.send = jasmine.createSpy('send')
-    this.ipcAdapter = new IPCAdapter(this.send, this.on)
+    this.ipcResponder = new IPCResponder(this.send, this.on)
   })
 
   describe('constructor()', () => {
-    it('should keep given send function inside the IPCAdapter', () => {
-      expect(this.ipcAdapter.send).toEqual(this.send)
+    it('should keep given send function inside the IPCResponder', () => {
+      expect(this.ipcResponder.send).toEqual(this.send)
     })
 
     it('should initialize topicHandlers with an empty object', () => {
-      expect(this.ipcAdapter.topicHandlers).toEqual({})
+      expect(this.ipcResponder.topicHandlers).toEqual({})
     })
 
     it('should initialize awaitingResponseHandlers with an empty object', () => {
-      expect(this.ipcAdapter.awaitingResponseHandlers).toEqual({})
+      expect(this.ipcResponder.awaitingResponseHandlers).toEqual({})
     })
   })
 
@@ -27,9 +27,9 @@ describe('IPCAdapter', () => {
     it('should set given topic handler for given topic to topicHandlers', () => {
       const topic = 'leia'
       const handler = 'han'
-      this.ipcAdapter.registerTopic(topic, handler)
+      this.ipcResponder.registerTopic(topic, handler)
 
-      expect(this.ipcAdapter.topicHandlers[topic]).toEqual(handler)
+      expect(this.ipcResponder.topicHandlers[topic]).toEqual(handler)
     })
   })
 })

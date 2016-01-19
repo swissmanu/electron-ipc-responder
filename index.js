@@ -1,27 +1,27 @@
 'use strict'
 
 const uuid = require('node-uuid')
-const IPCAdapterChannel = 'electron-ipc-adapter'
+const IPCResponderChannel = 'electron-ipc-responder'
 
 /**
  * <p>
- *   IPCAdapter is a base class for implementing communication partners which
+ *   IPCResponder is a base class for implementing communication partners which
  *   use [Electrons]{@link http://electron.atom.io/} Inter Process Communication
  *   (IPC) facilities.
  * </p>
  * <p>
- *   With {@link IPCAdapter#registerTopic} you can register a topic which can be
- *   called by the other peer. Vica versa, {@link IPCAdapter#ask} and
- *   {@link IPCAdapter#tell} allow to call upon such topics.
+ *   With {@link IPCResponder#registerTopic} you can register a topic which can be
+ *   called by the other peer. Vica versa, {@link IPCResponder#ask} and
+ *   {@link IPCResponder#tell} allow to call upon such topics.
  * </p>
  *
- * @example <caption>Create IPCAdapter for Host Process</caption>
+ * @example <caption>Create IPCResponder for Host Process</caption>
  * const electron = require('electron')
  * let mainWindow = new electron.BrowserWindow()
  * const ipcMain = electron.ipcMain
  * const webContents = mainWindow.webContents
  *
- * class HostIPCAdapter extends IPCAdapter {
+ * class HostIPCResponder extends IPCResponder {
  *   constructor() {
  *     super(webContents.send.bind(webContents), ipcMain.on.bind(ipcMain))
  *
@@ -30,10 +30,10 @@ const IPCAdapterChannel = 'electron-ipc-adapter'
  *     })
  *   }
  * }
- * @example <caption>Create IPCAdapter for Renderer Process</caption>
+ * @example <caption>Create IPCResponder for Renderer Process</caption>
  * const ipcRenderer = window.require('electron').ipcRenderer
  *
- * class RendererIPCAdapter extends IPCAdapter {
+ * class RendererIPCResponder extends IPCResponder {
  *   constructor() {
  *     super(ipcRenderer.send.bind(ipcRenderer), ipcRenderer.on.bind(ipcRenderer))
  *   }
@@ -43,10 +43,10 @@ const IPCAdapterChannel = 'electron-ipc-adapter'
  *   }
  * }
  */
-class IPCAdapter {
+class IPCResponder {
 
   /**
-   * Creates a new IPCAdapter and sets up the communication stack.
+   * Creates a new IPCResponder and sets up the communication stack.
    *
    * @param {function} send A function that allows sending an event via the IPC
    *                        infrastructure
@@ -58,7 +58,7 @@ class IPCAdapter {
     this.topicHandlers = {}
     this.awaitingResponseHandlers = {}
 
-    on(IPCAdapterChannel, (event, envelope) => {
+    on(IPCResponderChannel, (event, envelope) => {
       const topic = envelope.topic
       const id = envelope.id
       const payload = envelope.payload
@@ -67,7 +67,7 @@ class IPCAdapter {
         // Handle incoming request for topic:
         this.topicHandlers[topic](payload)
           .then((responsePayload) => {
-            event.sender.send(IPCAdapterChannel, { id, payload: responsePayload })
+            event.sender.send(IPCResponderChannel, { id, payload: responsePayload })
           })
       } else if (typeof (id) === 'string' && id.length > 0 && this.awaitingResponseHandlers[id] != null) {
         // Handle a response we are waiting for:
@@ -78,14 +78,14 @@ class IPCAdapter {
   }
 
   /**
-   * Register a topic which this IPCAdapter should be able to call upon. Given
+   * Register a topic which this IPCResponder should be able to call upon. Given
    * handler function has to return a promise.
    *
    * @param {string} topic Name of the topic to register
    * @param {function} handler A handler function to register for given topic.
    *                           This will be called every time the the given
-   *                           topic was called via {@link IPCAdapter#ask} or
-   *                           {@link IPCAdapter#tell}. It has to return a
+   *                           topic was called via {@link IPCResponder#ask} or
+   *                           {@link IPCResponder#tell}. It has to return a
    *                           promise.
    */
   registerTopic (topic, handler) {
@@ -95,14 +95,14 @@ class IPCAdapter {
   /**
    * Request a response for given topic of the counterparty. The payload
    * parameter will be sent along with your request. If you want to just send a
-   * message without waiting for response, see {@link IPCAdapter#tell}.
+   * message without waiting for response, see {@link IPCResponder#tell}.
    *
    * @param {string} topic Topic to request response for
    * @param {object} payload Data to send to the counterparty. This is
    *                         optional. Default is an empty object.
    * @return {promise} A promise that resolves with the payload returned from
    *                   the topic handler registered with
-   *                   {@link IPCAdapter#registerTopic}.
+   *                   {@link IPCResponder#registerTopic}.
    */
   ask (topic, payload) {
     const id = uuid.v4()
@@ -114,12 +114,12 @@ class IPCAdapter {
 
     return new Promise((resolve, reject) => {
       this.awaitingResponseHandlers[id] = { id, timestamp, resolve, reject }
-      this.send(IPCAdapterChannel, { id, topic, payload })
+      this.send(IPCResponderChannel, { id, topic, payload })
     })
   }
 
   /**
-   * Same as {@link IPCAdapter#ask}, tell allows to send a request to the
+   * Same as {@link IPCResponder#ask}, tell allows to send a request to the
    * communication counterparty. Instead expecting a response, this is "fire and
    * forget". So the returned promise will get resolved immediately, no matter
    * what the other side returns (if it returns anything at all).
@@ -134,9 +134,9 @@ class IPCAdapter {
    */
   tell (topic, payload) {
     const id = uuid.v4()
-    this.send(IPCAdapterChannel, { id, topic, payload })
+    this.send(IPCResponderChannel, { id, topic, payload })
     return Promise.resolve()
   }
 }
 
-module.exports = IPCAdapter
+module.exports = IPCResponder
