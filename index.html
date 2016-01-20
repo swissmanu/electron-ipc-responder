@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>electron-ipc-adapter Documentation: Home</title>
+    <title>electron-ipc-responder Documentation: Home</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -43,12 +43,12 @@
 
 
     <section>
-        <article><h1>electron-ipc-adapter</h1><p><a href="https://travis-ci.org/swissmanu/electron-ipc-adapter"><img src="https://travis-ci.org/swissmanu/orchestra-jsapi.svg" alt="Build Status"></a> <a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a> <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a> <a href="http://badge.fury.io/js/electron-ipc-adapter"><img src="https://badge.fury.io/js/electron-ipc-adapter.svg" alt="npm version"></a> <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a></p>
-<p><code>electron-ipc-adapter</code> provides a <a href="https://en.wikipedia.org/wiki/Request%E2%80%93response">Request-Response</a> pattern-based communication using Electrons IPC module.</p>
-<p><code>IPCAdapter</code> is used to set up the communication peers on Electrons <a href="http://electron.atom.io/docs/v0.36.0/tutorial/quick-start/#main-process">main and renderer process</a>. Once ready, <code>registerTopic()</code> can be used to make a specific function available to being called upon from the other peer. To do so, <code>ask()</code> and <code>tell()</code> is available. <code>ask</code> allows you to wait for a specific answer upon your request from the other peer. <code>tell</code> sends your message and does not wait for any reply (&quot;fire and forget&quot;). Both return a promise for the ease of use.</p>
-<p><code>electron-ipc-adapter</code> is transpiled using Babel and available in pure ES5 via npm.</p>
-<p>Please refer to the <a href="http://swissmanu.github.io/electron-ipc-adapter/IPCAdapter.html">documentation</a> for more details.</p>
-<h2>Installation</h2><pre class="prettyprint source lang-bash"><code>$ npm install electron-ipc-adapter --save</code></pre><h2>License</h2><p>Copyright (c) 2016 Manuel Alabor</p>
+        <article><h1>electron-ipc-responder</h1><p><a href="https://travis-ci.org/swissmanu/electron-ipc-responder"><img src="https://travis-ci.org/swissmanu/orchestra-jsapi.svg" alt="Build Status"></a> <a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a> <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a> <a href="http://badge.fury.io/js/electron-ipc-responder"><img src="https://badge.fury.io/js/electron-ipc-responder.svg" alt="npm version"></a> <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a></p>
+<p><code>electron-ipc-responder</code> provides a <a href="https://en.wikipedia.org/wiki/Request%E2%80%93response">Request-Response</a> pattern-based communication using Electrons IPC module.</p>
+<p><code>IPCResponder</code> is used to set up the communication peers on Electrons <a href="http://electron.atom.io/docs/v0.36.0/tutorial/quick-start/#main-process">main and renderer process</a>. Once ready, <code>registerTopic()</code> can be used to make a specific function available to being called upon from the other peer. To do so, <code>ask()</code> and <code>tell()</code> is available. <code>ask</code> allows you to wait for a specific answer upon your request from the other peer. <code>tell</code> sends your message and does not wait for any reply (&quot;fire and forget&quot;). Both return a promise for the ease of use.</p>
+<p><code>electron-ipc-responder</code> is transpiled using Babel and available in pure ES5 via npm.</p>
+<p>Please refer to the <a href="http://swissmanu.github.io/electron-ipc-responder/IPCAdapter.html">documentation</a> for more details.</p>
+<h2>Installation</h2><pre class="prettyprint source lang-bash"><code>$ npm install electron-ipc-responder --save</code></pre><h2>License</h2><p>Copyright (c) 2016 Manuel Alabor</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></article>
@@ -62,13 +62,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="IPCAdapter.html">IPCAdapter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="IPCResponder.html">IPCResponder</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 19 2016 23:10:06 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 20 2016 08:25:43 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

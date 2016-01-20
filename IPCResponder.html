@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>electron-ipc-adapter Documentation: Class: IPCAdapter</title>
+    <title>electron-ipc-responder Documentation: Class: IPCResponder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: IPCAdapter</h1>
+    <h1 class="page-title">Class: IPCResponder</h1>
 
     
 
@@ -28,17 +28,17 @@
 
 <header>
     
-        <h2>IPCAdapter</h2>
+        <h2>IPCResponder</h2>
         
             <div class="class-description"><p>
-  IPCAdapter is a base class for implementing communication partners which
+  IPCResponder is a base class for implementing communication partners which
   use <a href="http://electron.atom.io/">Electrons</a> Inter Process Communication
   (IPC) facilities.
 </p>
 <p>
-  With <a href="IPCAdapter.html#registerTopic">IPCAdapter#registerTopic</a> you can register a topic which can be
-  called by the other peer. Vica versa, <a href="IPCAdapter.html#ask">IPCAdapter#ask</a> and
-  <a href="IPCAdapter.html#tell">IPCAdapter#tell</a> allow to call upon such topics.
+  With <a href="IPCResponder.html#registerTopic">IPCResponder#registerTopic</a> you can register a topic which can be
+  called by the other peer. Vica versa, <a href="IPCResponder.html#ask">IPCResponder#ask</a> and
+  <a href="IPCResponder.html#tell">IPCResponder#tell</a> allow to call upon such topics.
 </p></div>
         
     
@@ -53,14 +53,14 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="IPCAdapter"><span class="type-signature"></span>new IPCAdapter<span class="signature">(send, on)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="IPCResponder"><span class="type-signature"></span>new IPCResponder<span class="signature">(send, on)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Creates a new IPCAdapter and sets up the communication stack.
+    Creates a new IPCResponder and sets up the communication stack.
 </div>
 
 
@@ -205,14 +205,14 @@
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Create IPCAdapter for Host Process</p>
+        <p class="code-caption">Create IPCResponder for Host Process</p>
     
     <pre class="prettyprint"><code>const electron = require('electron')
 let mainWindow = new electron.BrowserWindow()
 const ipcMain = electron.ipcMain
 const webContents = mainWindow.webContents
 
-class HostIPCAdapter extends IPCAdapter {
+class HostIPCResponder extends IPCResponder {
   constructor() {
     super(webContents.send.bind(webContents), ipcMain.on.bind(ipcMain))
 
@@ -222,11 +222,11 @@ class HostIPCAdapter extends IPCAdapter {
   }
 }</code></pre>
 
-        <p class="code-caption">Create IPCAdapter for Renderer Process</p>
+        <p class="code-caption">Create IPCResponder for Renderer Process</p>
     
     <pre class="prettyprint"><code>const ipcRenderer = window.require('electron').ipcRenderer
 
-class RendererIPCAdapter extends IPCAdapter {
+class RendererIPCResponder extends IPCResponder {
   constructor() {
     super(ipcRenderer.send.bind(ipcRenderer), ipcRenderer.on.bind(ipcRenderer))
   }
@@ -270,7 +270,7 @@ class RendererIPCAdapter extends IPCAdapter {
 <div class="description">
     Request a response for given topic of the counterparty. The payload
 parameter will be sent along with your request. If you want to just send a
-message without waiting for response, see <a href="IPCAdapter.html#tell">IPCAdapter#tell</a>.
+message without waiting for response, see <a href="IPCResponder.html#tell">IPCResponder#tell</a>.
 </div>
 
 
@@ -416,7 +416,7 @@ message without waiting for response, see <a href="IPCAdapter.html#tell">IPCAdap
 <div class="param-desc">
     A promise that resolves with the payload returned from
                   the topic handler registered with
-                  <a href="IPCAdapter.html#registerTopic">IPCAdapter#registerTopic</a>.
+                  <a href="IPCResponder.html#registerTopic">IPCResponder#registerTopic</a>.
 </div>
 
 
@@ -449,7 +449,7 @@ message without waiting for response, see <a href="IPCAdapter.html#tell">IPCAdap
 
 
 <div class="description">
-    Register a topic which this IPCAdapter should be able to call upon. Given
+    Register a topic which this IPCResponder should be able to call upon. Given
 handler function has to return a promise.
 </div>
 
@@ -527,8 +527,8 @@ handler function has to return a promise.
 
             <td class="description last">A handler function to register for given topic.
                           This will be called every time the the given
-                          topic was called via <a href="IPCAdapter.html#ask">IPCAdapter#ask</a> or
-                          <a href="IPCAdapter.html#tell">IPCAdapter#tell</a>. It has to return a
+                          topic was called via <a href="IPCResponder.html#ask">IPCResponder#ask</a> or
+                          <a href="IPCResponder.html#tell">IPCResponder#tell</a>. It has to return a
                           promise.</td>
         </tr>
 
@@ -608,7 +608,7 @@ handler function has to return a promise.
 
 
 <div class="description">
-    Same as <a href="IPCAdapter.html#ask">IPCAdapter#ask</a>, tell allows to send a request to the
+    Same as <a href="IPCResponder.html#ask">IPCResponder#ask</a>, tell allows to send a request to the
 communication counterparty. Instead expecting a response, this is "fire and
 forget". So the returned promise will get resolved immediately, no matter
 what the other side returns (if it returns anything at all).
@@ -795,13 +795,13 @@ what the other side returns (if it returns anything at all).
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="IPCAdapter.html">IPCAdapter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="IPCResponder.html">IPCResponder</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 19 2016 23:10:06 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Jan 20 2016 08:25:43 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
