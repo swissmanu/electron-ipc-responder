@@ -1,5 +1,6 @@
-# Same as .gitignore, but without the dist/ folder:
 .DS_Store
 node_modules/
 docs/
 npm-debug.log
+test/
+index.js
