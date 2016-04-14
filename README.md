@@ -7,7 +7,7 @@
 
 `electron-ipc-responder` is transpiled using Babel and available in pure ES5 via npm.
 
-Please refer to the [documentation](http://swissmanu.github.io/electron-ipc-responder/IPCAdapter.html) for more details.
+Please refer to the [documentation](http://swissmanu.github.io/electron-ipc-responder/IPCResponder.html) for more details.
 
 ## Installation
 
